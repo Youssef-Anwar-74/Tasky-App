@@ -47,6 +47,26 @@ class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
     }
   }
 
+  void _deleteTask(int? id) async {
+    List<TaskModel> tasks = [];
+    if (id == null) return;
+
+    final finalTask = PreferencesManager().getString("tasks");
+    if (finalTask != null) {
+      final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
+      tasks = taskAfterDecode
+          .map((element) => TaskModel.fromJson(element))
+          .toList();
+      tasks.removeWhere((e) => e.id == id);
+
+      setState(() {
+        todoTasks.removeWhere((task) => task.id == id);
+      });
+      final updatedTask = tasks.map((element) => element.toJson()).toList();
+      PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -86,11 +106,20 @@ class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
                         );
                         allDataList[newIndex] = todoTasks[index!];
 
-                        await PreferencesManager().setString("tasks", jsonEncode(allDataList));
+                        await PreferencesManager().setString(
+                          "tasks",
+                          jsonEncode(allDataList),
+                        );
                         _loadTask();
                       }
                     },
                     emptyMessage: 'No Tasks Found',
+                    onDelete: (int? id) {
+                      _deleteTask(id);
+                    },
+                    onEdit: () {
+                      _loadTask();
+                    },
                   ),
           ),
         ),

@@ -65,12 +65,25 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+
+
   void _doneTask(bool? value, int? index) async {
     setState(() {
       tasks[index!].isDone = value ?? false;
       _calculatePercent();
     });
 
+    final updatedTask = tasks.map((element) => element.toJson()).toList();
+    PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+  }
+
+  void _deleteTask(int? id) async {
+    if(id == null) return;
+
+    setState(() {
+      tasks.removeWhere((task) => task.id == id);
+      _calculatePercent();
+    });
     final updatedTask = tasks.map((element) => element.toJson()).toList();
     PreferencesManager().setString("tasks", jsonEncode(updatedTask));
   }
@@ -176,6 +189,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   _doneTask(value, index);
                 },
                 emptyMessage: 'No Tasks Added Yet',
+                onDelete: (int? id) {
+                  _deleteTask(id);
+              }, onEdit: (){
+                  _loadTask();
+              },
               ),
             ),
           ],

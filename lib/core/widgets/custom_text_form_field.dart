@@ -26,7 +26,7 @@ class CustomTextFormField extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.start,
-          style: GoogleFonts.aclonica(color: Color(0xFFFFFCFC), fontSize: 16),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(height: 8),
         TextFormField(

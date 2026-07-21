@@ -37,7 +37,8 @@ class _AddTaskState extends State<AddTask> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: Text("New Task"),
+        title: Text("New Task",),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 20),

@@ -11,11 +11,15 @@ class TaskListWidget extends StatefulWidget {
     required this.tasks,
     required this.onTap,
     required this.emptyMessage,
+    required this.onDelete,
+    required this.onEdit,
   });
 
   final List<TaskModel> tasks;
   final Function(bool?, int?) onTap;
   final String emptyMessage;
+  final Function onEdit;
+  final Function(int?) onDelete;
 
   @override
   State<TaskListWidget> createState() => _TaskListWidgetState();
@@ -41,7 +45,11 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                 model: widget.tasks[index],
                 onChanged: (bool? value) {
                   widget.onTap(value , index);
-                },
+                }, onDelete: (int id) {
+                widget.onDelete(id);
+              }, onEdit: (){
+                  widget.onEdit();
+              },
               );
             },
             separatorBuilder: (BuildContext context, int index) {
