@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -25,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? username;
+  String? userImagePath;
   List<TaskModel> tasks = [];
   bool isLoading = false;
   int totalTasks = 0;
@@ -41,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _loadUserName() async {
     setState(() {
       username = PreferencesManager().getString("username");
+      userImagePath = PreferencesManager().getString("user_image");
     });
   }
 
@@ -110,9 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: AssetImage(
+                        backgroundImage: userImagePath == null ?
+                        AssetImage(
                           "assets/images/youssef_photo.jpeg",
-                        ),
+                        ) : FileImage(File(userImagePath!)) as ImageProvider,
                       ),
                       SizedBox(width: 8),
                       Column(
