@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasky_app/screens/home_screen.dart';
-import 'package:tasky_app/screens/profile_screen.dart';
-import 'package:tasky_app/screens/to_do_tasks_screen.dart';
+import 'package:tasky_app/features/home/home_screen.dart';
+import 'package:tasky_app/features/profile/profile_screen.dart';
+import 'package:tasky_app/features/tasks/to_do_tasks_screen.dart';
 
-import 'completed_tasks_screen.dart';
+import '../tasks/completed_tasks_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

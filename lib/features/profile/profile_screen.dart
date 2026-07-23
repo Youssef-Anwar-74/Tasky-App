@@ -9,11 +9,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/main.dart';
-import 'package:tasky_app/screens/user_details_screen.dart';
-import 'package:tasky_app/screens/welcome_screen.dart';
+import 'package:tasky_app/features/profile/user_details_screen.dart';
+import 'package:tasky_app/features/welcome/welcome_screen.dart';
 
-import '../core/theme/theme_controller.dart';
-import '../widgets/custom_svg_picture.dart';
+import '../../core/theme/theme_controller.dart';
+import '../../core/widgets/custom_svg_picture.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

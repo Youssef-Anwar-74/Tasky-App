@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
 
-import '../core/services/preferences_manager.dart';
-import '../core/widgets/custom_text_form_field.dart';
+import '../../core/services/preferences_manager.dart';
+import '../../core/widgets/custom_text_form_field.dart';
 
 class AddTask extends StatefulWidget {
   AddTask({super.key});

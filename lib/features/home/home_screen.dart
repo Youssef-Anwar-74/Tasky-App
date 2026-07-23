@@ -9,13 +9,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
-import 'package:tasky_app/widgets/sliver_task_list_widget.dart';
+import 'package:tasky_app/features/home/components/sliver_task_list_widget.dart';
 
-import '../widgets/achieved_tasks_widget.dart';
-import '../widgets/custom_svg_picture.dart';
-import '../widgets/high_priority_task_widget.dart';
-import '../widgets/task_list_widget.dart';
-import 'add_task_screen.dart';
+import 'widgets/achieved_tasks_widget.dart';
+import '../../core/widgets/custom_svg_picture.dart';
+import 'widgets/high_priority_task_widget.dart';
+import '../../core/components/task_list_widget.dart';
+import '../add_task/add_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

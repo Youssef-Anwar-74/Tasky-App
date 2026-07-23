@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasky_app/models/task_model.dart';
-import 'package:tasky_app/widgets/task_item_widget.dart';
+import 'package:tasky_app/core/components/task_item_widget.dart';
 
-import '../core/widgets/custom_check_box.dart';
+import '../widgets/custom_check_box.dart';
 
 class TaskListWidget extends StatefulWidget {
   const TaskListWidget({

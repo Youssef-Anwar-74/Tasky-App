@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
-import 'package:tasky_app/screens/home_screen.dart';
-import 'package:tasky_app/widgets/custom_svg_picture.dart';
+import 'package:tasky_app/features/home/home_screen.dart';
+import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 
-import 'main_screen.dart';
+import '../navigation/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});

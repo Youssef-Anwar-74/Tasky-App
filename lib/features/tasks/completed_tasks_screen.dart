@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 
-import '../models/task_model.dart';
-import '../widgets/task_list_widget.dart';
+import '../../models/task_model.dart';
+import '../../core/components/task_list_widget.dart';
 
 class CompletedTasksScreen extends StatefulWidget {
   const CompletedTasksScreen({super.key});

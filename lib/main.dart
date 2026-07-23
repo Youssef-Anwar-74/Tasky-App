@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/light_theme.dart';
-import 'package:tasky_app/screens/home_screen.dart';
-import 'package:tasky_app/screens/main_screen.dart';
-import 'package:tasky_app/screens/welcome_screen.dart';
+import 'package:tasky_app/features/home/home_screen.dart';
+import 'package:tasky_app/features/navigation/main_screen.dart';
+import 'package:tasky_app/features/welcome/welcome_screen.dart';
 
 import 'core/theme/dark_theme.dart';
 import 'core/theme/theme_controller.dart';

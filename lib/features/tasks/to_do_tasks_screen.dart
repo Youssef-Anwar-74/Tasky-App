@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
 
-import '../widgets/task_list_widget.dart';
+import '../../core/components/task_list_widget.dart';
 
 class ToDoTasksScreen extends StatefulWidget {
   const ToDoTasksScreen({super.key});
