@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/constants/storage_key.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/features/home/home_screen.dart';
@@ -92,7 +93,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         onPressed: () async {
                           if (_key.currentState?.validate() ?? false) {
-                            await PreferencesManager().setString("username", controller.value.text);
+                            await PreferencesManager().setString(StorageKey.username, controller.value.text);
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

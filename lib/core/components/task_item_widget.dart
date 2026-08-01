@@ -8,6 +8,7 @@ import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/task_model.dart';
 
+import '../constants/storage_key.dart';
 import '../services/preferences_manager.dart';
 import '../widgets/custom_check_box.dart';
 
@@ -224,7 +225,7 @@ class TaskItemWidget extends StatelessWidget {
                       ),
                       onPressed: () async {
                         if (_key.currentState?.validate() ?? false) {
-                          final taskJson = PreferencesManager().getString("tasks");
+                          final taskJson = PreferencesManager().getString(StorageKey.tasks);
 
                           List<dynamic> listTasks = [];
 
@@ -246,7 +247,7 @@ class TaskItemWidget extends StatelessWidget {
                           listTasks[index] = newModel.toJson();
 
                           final taskEncode = jsonEncode(listTasks);
-                          await PreferencesManager().setString("tasks", taskEncode);
+                          await PreferencesManager().setString(StorageKey.tasks, taskEncode);
 
                           if (context.mounted) {
                             Navigator.of(context).pop(true);

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/constants/storage_key.dart';
 import '../../core/services/preferences_manager.dart';
 import '../../models/task_model.dart';
 import '../../core/components/task_list_widget.dart';
@@ -30,7 +31,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
     setState(() {
       isLoading = true;
     });
-    final finalTask = PreferencesManager().getString("tasks");
+    final finalTask = PreferencesManager().getString(StorageKey.tasks);
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
       setState(() {
@@ -53,7 +54,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
     List<TaskModel> tasks = [];
     if (id == null) return;
 
-    final finalTask = PreferencesManager().getString("tasks");
+    final finalTask = PreferencesManager().getString(StorageKey.tasks);
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
       tasks = taskAfterDecode
@@ -65,7 +66,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
         highPriorityTasks.removeWhere((task) => task.id == id);
       });
       final updatedTask = tasks.map((element) => element.toJson()).toList();
-      PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+      PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
     }
   }
 
@@ -84,7 +85,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                     highPriorityTasks[index!].isDone = value ?? false;
                   });
 
-                  final allData = PreferencesManager().getString("tasks");
+                  final allData = PreferencesManager().getString(StorageKey.tasks);
 
                   if (allData != null) {
                     List<TaskModel> allDataList = (jsonDecode(allData) as List)
@@ -97,7 +98,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                     allDataList[newIndex] = highPriorityTasks[index!];
 
                     await PreferencesManager().setString(
-                      "tasks",
+                      StorageKey.tasks,
                       jsonEncode(allDataList),
                     );
                     _loadTask();

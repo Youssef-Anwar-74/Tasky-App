@@ -11,6 +11,7 @@ import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/features/home/components/sliver_task_list_widget.dart';
 
+import '../../core/constants/storage_key.dart';
 import 'components/achieved_tasks_widget.dart';
 import 'components/high_priority_task_widget.dart';
 import '../../core/widgets/custom_svg_picture.dart';
@@ -42,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _loadUserName() async {
     setState(() {
-      username = PreferencesManager().getString("username");
-      userImagePath = PreferencesManager().getString("user_image");
+      username = PreferencesManager().getString(StorageKey.username);
+      userImagePath = PreferencesManager().getString(StorageKey.userImage);
     });
   }
 
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isLoading = false;
     });
-    final finalTask = PreferencesManager().getString("tasks");
+    final finalTask = PreferencesManager().getString(StorageKey.tasks);
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     final updatedTask = tasks.map((element) => element.toJson()).toList();
-    PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+    PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
   }
 
   void _deleteTask(int? id) async {
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _calculatePercent();
     });
     final updatedTask = tasks.map((element) => element.toJson()).toList();
-    PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+    PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
   }
 
   _calculatePercent() {

@@ -12,6 +12,7 @@ import 'package:tasky_app/main.dart';
 import 'package:tasky_app/features/profile/user_details_screen.dart';
 import 'package:tasky_app/features/welcome/welcome_screen.dart';
 
+import '../../core/constants/storage_key.dart';
 import '../../core/theme/theme_controller.dart';
 import '../../core/widgets/custom_svg_picture.dart';
 
@@ -36,11 +37,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _loadData() async {
     setState(() {
-      username = PreferencesManager().getString("username") ?? "";
+      username = PreferencesManager().getString(StorageKey.username) ?? "";
       motivationQuote =
-          PreferencesManager().getString("motivation_quote") ??
+          PreferencesManager().getString(StorageKey.motivationQuote) ??
           "One task a time . One step closer.";
-      userImagePath = PreferencesManager().getString("user_image");
+      userImagePath = PreferencesManager().getString(StorageKey.userImage);
       isLoading = false;
     });
   }
@@ -164,9 +165,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Divider(),
                 ListTile(
                   onTap: () async {
-                    PreferencesManager().remove("username");
-                    PreferencesManager().remove("motivation_quote");
-                    PreferencesManager().remove("tasks");
+                    PreferencesManager().remove(StorageKey.username);
+                    PreferencesManager().remove(StorageKey.motivationQuote);
+                    PreferencesManager().remove(StorageKey.tasks);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -191,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final appDir = await getApplicationDocumentsDirectory();
     final newFile = await File(file.path).copy('${appDir.path}/${file.name}');
 
-    await PreferencesManager().setString("user_image", newFile.path);
+    await PreferencesManager().setString(StorageKey.userImage, newFile.path);
 
     return newFile.path;
   }

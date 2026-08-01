@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
 
+import '../../core/constants/storage_key.dart';
 import '../../core/services/preferences_manager.dart';
 import '../../core/widgets/custom_text_form_field.dart';
 
@@ -90,7 +91,7 @@ class _AddTaskState extends State<AddTask> {
                 ),
                 onPressed: () async {
                   if (_key.currentState?.validate() ?? false) {
-                    final taskJson = PreferencesManager().getString("tasks");
+                    final taskJson = PreferencesManager().getString(StorageKey.tasks);
 
                     List<dynamic> listTasks = [];
 
@@ -107,7 +108,7 @@ class _AddTaskState extends State<AddTask> {
 
                     listTasks.add(model.toJson());
                     final taskEncode = jsonEncode(listTasks);
-                    await PreferencesManager().setString("tasks", taskEncode);
+                    await PreferencesManager().setString(StorageKey.tasks, taskEncode);
 
                     Navigator.of(context).pop(true);
                   }

@@ -8,6 +8,7 @@ import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 import '../../core/components/task_list_widget.dart';
+import '../../core/constants/storage_key.dart';
 
 class ToDoTasksScreen extends StatefulWidget {
   const ToDoTasksScreen({super.key});
@@ -31,7 +32,7 @@ class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
       isLoading = false;
     });
     final pref = await SharedPreferences.getInstance();
-    final finalTask = PreferencesManager().getString("tasks");
+    final finalTask = PreferencesManager().getString(StorageKey.tasks);
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
       setState(() {
@@ -51,7 +52,7 @@ class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
     List<TaskModel> tasks = [];
     if (id == null) return;
 
-    final finalTask = PreferencesManager().getString("tasks");
+    final finalTask = PreferencesManager().getString(StorageKey.tasks);
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
       tasks = taskAfterDecode
@@ -63,7 +64,7 @@ class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
         todoTasks.removeWhere((task) => task.id == id);
       });
       final updatedTask = tasks.map((element) => element.toJson()).toList();
-      PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+      PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
     }
   }
 
@@ -93,7 +94,7 @@ class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
 
                       final pref = await SharedPreferences.getInstance();
 
-                      final allData = PreferencesManager().getString("tasks");
+                      final allData = PreferencesManager().getString(StorageKey.tasks);
 
                       if (allData != null) {
                         List<TaskModel> allDataList =
@@ -107,7 +108,7 @@ class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
                         allDataList[newIndex] = todoTasks[index!];
 
                         await PreferencesManager().setString(
-                          "tasks",
+                          StorageKey.tasks,
                           jsonEncode(allDataList),
                         );
                         _loadTask();

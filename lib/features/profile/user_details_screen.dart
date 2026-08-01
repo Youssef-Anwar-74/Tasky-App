@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 
+import '../../core/constants/storage_key.dart';
+
 class UserDetailsScreen extends StatefulWidget {
   const UserDetailsScreen({
     super.key,
@@ -73,8 +75,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_key.currentState!.validate()) {
-                    await PreferencesManager().setString("username", userNameController.value.text);
-                    await PreferencesManager().setString("motivation_quote", motivationQuoteController.value.text);
+                    await PreferencesManager().setString(StorageKey.username, userNameController.value.text);
+                    await PreferencesManager().setString(StorageKey.motivationQuote, motivationQuoteController.value.text);
 
                     Navigator.pop(context, true);
                   }
