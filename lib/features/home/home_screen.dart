@@ -11,9 +11,9 @@ import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/features/home/components/sliver_task_list_widget.dart';
 
-import 'widgets/achieved_tasks_widget.dart';
+import 'components/achieved_tasks_widget.dart';
+import 'components/high_priority_task_widget.dart';
 import '../../core/widgets/custom_svg_picture.dart';
-import 'widgets/high_priority_task_widget.dart';
 import '../../core/components/task_list_widget.dart';
 import '../add_task/add_task_screen.dart';
 

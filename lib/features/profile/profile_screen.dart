@@ -69,24 +69,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         alignment: Alignment.bottomRight,
                         children: [
                           CircleAvatar(
-                            backgroundImage: userImagePath != null
-                                ? FileImage(File(userImagePath!))
-                                : AssetImage(
-                                    "assets/images/youssef_photo.jpeg",
-                                  ) as ImageProvider,
                             radius: 60,
+                            backgroundImage:
+                                (userImagePath != null &&
+                                    File(userImagePath!).existsSync())
+                                ? FileImage(File(userImagePath!))
+                                : const AssetImage(
+                                    "assets/images/youssef_photo.jpeg",
+                                  ),
                           ),
                           GestureDetector(
                             onTap: () async {
-                              showImageSourceDialog(
-                                context,
-                                (XFile image) {
-                                  _saveImage(image);
-                                  setState(() {
-                                    userImagePath = image.path;
-                                  });
-                                },
-                              );
+                              showImageSourceDialog(context, (
+                                XFile image,
+                              ) async {
+                                final savedPath = await _saveImage(image);
+
+                                setState(() {
+                                  userImagePath = savedPath;
+                                });
+                              });
                             },
                             child: Container(
                               width: 40,
@@ -185,10 +187,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
   }
 
-  void _saveImage(XFile file) async {
-    final appDir = (await getApplicationDocumentsDirectory());
+  Future<String> _saveImage(XFile file) async {
+    final appDir = await getApplicationDocumentsDirectory();
     final newFile = await File(file.path).copy('${appDir.path}/${file.name}');
-    PreferencesManager().setString("user_image", newFile.path);
+
+    await PreferencesManager().setString("user_image", newFile.path);
+
+    return newFile.path;
   }
 }
 

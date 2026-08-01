@@ -47,7 +47,7 @@ class WelcomeScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.displaySmall
                     ),
                     SizedBox(width: 8),
-                    CustomSvgPicture.withoutColor(path:" assets/images/waving_hand.svg"),
+                    CustomSvgPicture.withoutColor(path:"assets/images/waving_hand.svg"),
                   ],
                 ),
                 SizedBox(height: 8),
