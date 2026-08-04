@@ -3,73 +3,21 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
+import 'package:tasky_app/features/tasks/tasks_controller.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 import '../../core/components/task_list_widget.dart';
 import '../../core/constants/storage_key.dart';
 
-class ToDoTasksScreen extends StatefulWidget {
+class ToDoTasksScreen extends StatelessWidget {
   const ToDoTasksScreen({super.key});
 
   @override
-  State<ToDoTasksScreen> createState() => _ToDoTasksScreenState();
-}
-
-class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
-  List<TaskModel> todoTasks = [];
-  bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTask();
-  }
-
-  void _loadTask() async {
-    setState(() {
-      isLoading = false;
-    });
-    final pref = await SharedPreferences.getInstance();
-    final finalTask = PreferencesManager().getString(StorageKey.tasks);
-    if (finalTask != null) {
-      final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
-      setState(() {
-        todoTasks = taskAfterDecode
-            .map((element) => TaskModel.fromJson(element))
-            .toList();
-        todoTasks = todoTasks.where((element) => !element.isDone).toList();
-      });
-
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  void _deleteTask(int? id) async {
-    List<TaskModel> tasks = [];
-    if (id == null) return;
-
-    final finalTask = PreferencesManager().getString(StorageKey.tasks);
-    if (finalTask != null) {
-      final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
-      tasks = taskAfterDecode
-          .map((element) => TaskModel.fromJson(element))
-          .toList();
-      tasks.removeWhere((e) => e.id == id);
-
-      setState(() {
-        todoTasks.removeWhere((task) => task.id == id);
-      });
-      final updatedTask = tasks.map((element) => element.toJson()).toList();
-      PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = context.read<TasksController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -83,43 +31,23 @@ class _ToDoTasksScreenState extends State<ToDoTasksScreen> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: isLoading
+            child: controller.isLoading
                 ? Center(child: CircularProgressIndicator(color: Colors.white))
-                : TaskListWidget(
-                    tasks: todoTasks,
-                    onTap: (bool? value, int? index) async {
-                      setState(() {
-                        todoTasks[index!].isDone = value ?? false;
-                      });
-
-                      final pref = await SharedPreferences.getInstance();
-
-                      final allData = PreferencesManager().getString(StorageKey.tasks);
-
-                      if (allData != null) {
-                        List<TaskModel> allDataList =
-                            (jsonDecode(allData) as List)
-                                .map((element) => TaskModel.fromJson(element))
-                                .toList();
-
-                        final newIndex = allDataList.indexWhere(
-                          (element) => element.id == todoTasks[index!].id,
-                        );
-                        allDataList[newIndex] = todoTasks[index!];
-
-                        await PreferencesManager().setString(
-                          StorageKey.tasks,
-                          jsonEncode(allDataList),
-                        );
-                        _loadTask();
-                      }
-                    },
-                    emptyMessage: 'No Tasks Found',
-                    onDelete: (int? id) {
-                      _deleteTask(id);
-                    },
-                    onEdit: () {
-                      _loadTask();
+                : Consumer<TasksController>(
+                    builder: (BuildContext context, value, Widget? child) {
+                      return TaskListWidget(
+                        tasks: value.todoTasks,
+                        onTap: (bool? value, int? index) async {
+                          controller.doneTask(value, index);
+                        },
+                        emptyMessage: 'No Tasks Found',
+                        onDelete: (int? id) {
+                          controller.deleteTask(id);
+                        },
+                        onEdit: () {
+                          controller.init();
+                        },
+                      );
                     },
                   ),
           ),
