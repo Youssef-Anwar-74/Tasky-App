@@ -1,0 +1,20 @@
+flutter_native_splash:
+  # This package generates native code to customize Flutter's default white native splash screen
+  # with background color and splash image.
+  
+  # Set the background color to match your app's theme to avoid the "white flash"
+  color: "#181818"
+  color_dark: "#181818"
+
+  # The logo image to be centered on the splash screen
+  image: assets/images/tasky1.png
+  image_dark: assets/images/tasky1.png
+
+  fullscreen: true
+
+  # Android 12+ specific configuration (Crucial for removing the white flash on newer devices)
+  android_12:
+    color: "#181818"
+    color_dark: "#181818"
+    image: assets/images/tasky1.png
+    image_dark: assets/images/tasky1.png
