@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky_app/core/constants/storage_key.dart';
 import 'package:tasky_app/features/home/home_controller.dart';
 import 'package:tasky_app/features/home/components/sliver_task_list_widget.dart';
 import 'package:tasky_app/features/tasks/tasks_controller.dart';
@@ -39,16 +40,17 @@ class HomeScreen extends StatelessWidget {
                                 Widget? child,
                               ) {
                                 return CircleAvatar(
-                                  backgroundImage: userImagePath == null
-                                      ? AssetImage(
-                                          "assets/images/youssef_photo.jpeg",
+                                  backgroundImage: (userImagePath == null ||
+                                          !File(userImagePath).existsSync())
+                                      ? const AssetImage(
+                                          "assets/images/default.jpeg",
                                         )
                                       : FileImage(File(userImagePath))
                                             as ImageProvider,
                                 );
                               },
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                                       Widget? child,
                                     ) {
                                       return Text(
-                                        "Good Evening , $username",
+                                        "Good Evening , ${username ?? ''}",
                                         style: Theme.of(
                                           context,
                                         ).textTheme.titleMedium,
@@ -72,17 +74,31 @@ class HomeScreen extends StatelessWidget {
                                       );
                                     },
                               ),
-                              Text(
-                                "One task at a time . One step closer.",
-                                style: Theme.of(context).textTheme.titleSmall,
-                                overflow: TextOverflow.ellipsis,
+                              Selector<HomeController, String?>(
+                                selector:
+                                    (context, HomeController controller) =>
+                                        controller.motivationQuote,
+                                builder:
+                                    (
+                                      BuildContext context,
+                                      String? motivationQuote,
+                                      Widget? child,
+                                    ) {
+                                      return Text(
+                                        motivationQuote ?? '',
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleSmall,
+                                        overflow: TextOverflow.ellipsis,
+                                      );
+                                    },
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(
                       "Yuhuu , Your work is",
                       style: Theme.of(context).textTheme.displayLarge,
@@ -100,9 +116,9 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     AchievedTasksWidget(),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     HighPriorityTaskWidget(),
                     Padding(
                       padding: const EdgeInsets.only(top: 24),
@@ -111,11 +127,11 @@ class HomeScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
-              SliverPadding(
+              const SliverPadding(
                 padding: EdgeInsets.only(bottom: 60),
                 sliver: SliverTaskListWidget(
                   emptyMessage: 'No Tasks Added Yet',
@@ -134,17 +150,18 @@ class HomeScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) {
-                        return AddTaskScreen();
+                        return const AddTaskScreen();
                       },
                     ),
                   );
-                  print(result);
                   if (result != null && result == true) {
-                    context.read<TasksController>().init();
+                    if (context.mounted) {
+                      context.read<TasksController>().init();
+                    }
                   }
                 },
-                label: Text("Add New Task"),
-                icon: Icon(Icons.add),
+                label: const Text("Add New Task"),
+                icon: const Icon(Icons.add),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

@@ -49,7 +49,11 @@ class _MainScreenState extends State<MainScreen> {
     return SvgPicture.asset(
       path,
       colorFilter: ColorFilter.mode(
-        _currentIndex == index ? Color(0xFF15B86C) : Color(0xFFC6C6C6),
+        _currentIndex == index
+            ? const Color(0xFF15B86C)
+            : Theme.of(context).brightness == Brightness.light
+            ? const Color(0xFF181818)
+            : const Color(0xFFC6C6C6),
         BlendMode.srcIn,
       ),
     );

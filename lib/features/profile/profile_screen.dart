@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/main.dart';
@@ -15,6 +16,7 @@ import 'package:tasky_app/features/welcome/welcome_screen.dart';
 import '../../core/constants/storage_key.dart';
 import '../../core/theme/theme_controller.dart';
 import '../../core/widgets/custom_svg_picture.dart';
+import '../tasks/tasks_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -40,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       username = PreferencesManager().getString(StorageKey.username) ?? "";
       motivationQuote =
           PreferencesManager().getString(StorageKey.motivationQuote) ??
-          "One task a time . One step closer.";
+          "One task a time , One step closer";
       userImagePath = PreferencesManager().getString(StorageKey.userImage);
       isLoading = false;
     });
@@ -49,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? Center(child: CircularProgressIndicator(color: Colors.white))
+        ? const Center(child: CircularProgressIndicator(color: Colors.white))
         : Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -62,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 Center(
                   child: Column(
                     children: [
@@ -71,13 +73,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           CircleAvatar(
                             radius: 60,
-                            backgroundImage:
-                                (userImagePath != null &&
+                            backgroundImage: (userImagePath != null &&
                                     File(userImagePath!).existsSync())
                                 ? FileImage(File(userImagePath!))
                                 : const AssetImage(
-                                    "assets/images/youssef_photo.jpeg",
-                                  ),
+                                    "assets/images/default.jpeg",
+                                  ) as ImageProvider,
                           ),
                           GestureDetector(
                             onTap: () async {
@@ -100,12 +101,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ).colorScheme.primaryContainer,
                                 borderRadius: BorderRadius.circular(100),
                               ),
-                              child: Icon(Icons.camera_alt, size: 28),
+                              child: const Icon(Icons.camera_alt, size: 28),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 6),
+                      const SizedBox(height: 6),
                       Text(
                         username,
                         style: Theme.of(context).textTheme.labelSmall,
@@ -117,12 +118,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Text(
                   "Profile Info",
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 ListTile(
                   onTap: () async {
                     final result = await Navigator.push(
@@ -141,15 +142,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     }
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text("User Details"),
-                  leading: CustomSvgPicture(path: 'assets/images/profile.svg'),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  title: const Text("User Details"),
+                  leading: const CustomSvgPicture(path: 'assets/images/profile.svg'),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text("Dark Mode"),
-                  leading: CustomSvgPicture(path: 'assets/images/dark.svg'),
+                  title: const Text("Dark Mode"),
+                  leading: const CustomSvgPicture(path: 'assets/images/dark.svg'),
                   trailing: ValueListenableBuilder(
                     valueListenable: ThemeController.themeNotifier,
                     builder: (BuildContext context, value, Widget? child) {
@@ -162,26 +163,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
                   onTap: () async {
-                    PreferencesManager().remove(StorageKey.username);
-                    PreferencesManager().remove(StorageKey.motivationQuote);
-                    PreferencesManager().remove(StorageKey.tasks);
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return WelcomeScreen();
-                        },
-                      ),
-                      (Route<dynamic> route) => false,
-                    );
+                    context.read<TasksController>().clearTasks();
+                    // Reset all data on logout
+                    await PreferencesManager().clear();
+                    
+                    if (context.mounted) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return  WelcomeScreen();
+                          },
+                        ),
+                        (Route<dynamic> route) => false,
+                      );
+                    }
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text("Log Out"),
-                  leading: CustomSvgPicture(path: 'assets/images/log_out.svg'),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  title: const Text("Log Out"),
+                  leading: const CustomSvgPicture(path: 'assets/images/log_out.svg'),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                 ),
               ],
             ),
@@ -219,11 +223,11 @@ void showImageSourceDialog(BuildContext context, Function(XFile) selectedFile) {
                 selectedFile(image);
               }
             },
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(Icons.camera_alt),
-                SizedBox(width: 16),
+                const Icon(Icons.camera_alt),
+                const SizedBox(width: 16),
                 Text("Camera", style: Theme.of(context).textTheme.titleMedium),
               ],
             ),
@@ -239,11 +243,11 @@ void showImageSourceDialog(BuildContext context, Function(XFile) selectedFile) {
                 selectedFile(image);
               }
             },
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(Icons.photo_library),
-                SizedBox(width: 16),
+                const Icon(Icons.photo_library),
+                const SizedBox(width: 16),
                 Text("Gallery", style: Theme.of(context).textTheme.titleMedium),
               ],
             ),
