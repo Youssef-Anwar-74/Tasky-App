@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/features/tasks/tasks_controller.dart';
 
+import '../../core/constants/app_sizes.dart';
 import '../../core/constants/storage_key.dart';
 import '../../core/services/preferences_manager.dart';
 import '../../models/task_model.dart';
@@ -21,25 +22,29 @@ class HighPriorityScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("High Priority Tasks")),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(AppSizes.w16),
         child: controller.isLoading
             ? Center(child: CircularProgressIndicator(color: Colors.white))
             : Consumer<TasksController>(
-                builder: (BuildContext context, valueController, Widget? child) {
-                  return TaskListWidget(
-                    tasks: valueController.highPriorityTasks,
-                    onTap: (bool? value, int? index) async {
-                      controller.doneTask(value, valueController.highPriorityTasks[index!].id);
+                builder:
+                    (BuildContext context, valueController, Widget? child) {
+                      return TaskListWidget(
+                        tasks: valueController.highPriorityTasks,
+                        onTap: (bool? value, int? index) async {
+                          controller.doneTask(
+                            value,
+                            valueController.highPriorityTasks[index!].id,
+                          );
+                        },
+                        emptyMessage: 'No Tasks Found',
+                        onDelete: (int? id) {
+                          controller.deleteTask(id);
+                        },
+                        onEdit: () {
+                          controller.init();
+                        },
+                      );
                     },
-                    emptyMessage: 'No Tasks Found',
-                    onDelete: (int? id) {
-                      controller.deleteTask(id);
-                    },
-                    onEdit: () {
-                      controller.init();
-                    },
-                  );
-                },
               ),
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/features/home/home_controller.dart';
@@ -20,10 +22,10 @@ class HighPriorityTaskWidget extends StatelessWidget {
       builder:
           (BuildContext context, TasksController controller, Widget? child) {
             return Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppSizes.w16),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppSizes.r20),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,11 +38,11 @@ class HighPriorityTaskWidget extends StatelessWidget {
                         Text(
                           "High Priority Tasks",
                           style: GoogleFonts.aclonica(
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             color: Color(0xFF15886C),
                           ),
                         ),
-                        SizedBox(height: 8),
+                        SizedBox(height: AppSizes.h8),
                         ...controller.tasks.reversed
                             .where((e) => e.isHighPriority)
                             .take(4)
@@ -85,11 +87,11 @@ class HighPriorityTaskWidget extends StatelessWidget {
                       controller.init();
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding:  EdgeInsets.all(AppSizes.w16),
                       child: Container(
-                        height: 56,
-                        width: 48,
-                        padding: EdgeInsets.all(14),
+                        height: AppSizes.h56,
+                        width: AppSizes.w48,
+                        padding: EdgeInsets.all(AppSizes.pw16),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primaryContainer,
                           shape: BoxShape.circle,

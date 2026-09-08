@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 
 ThemeData darkTheme = ThemeData(
     useMaterial3: true,
@@ -33,28 +35,29 @@ ThemeData darkTheme = ThemeData(
       backgroundColor: Color(0xFF181818),
       titleTextStyle: GoogleFonts.aclonica(
         color: Color(0xFFFFFCFC),
-        fontSize: 20,
+        fontSize: AppSizes.sp20,
         fontWeight: FontWeight.w400,
       ),
       iconTheme: IconThemeData(color: Color(0xFFFFFCFC)),
       centerTitle: false,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(Color(0xFF15B86C)),
-          foregroundColor:  WidgetStateProperty.all(Color(0xFFFFFCFC)),
-          textStyle: WidgetStateProperty.all(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: (Color(0xFF15B86C)),
+          foregroundColor:  (Color(0xFFFFFCFC)),
+          textStyle: (
             GoogleFonts.aclonica(
-              fontSize: 14,
+              fontSize:AppSizes.sp14,
               fontWeight: FontWeight.w500
             )
-          )
+          ),
+          minimumSize: Size.fromHeight(AppSizes.h40)
         )
     ),
 
   textButtonTheme: TextButtonThemeData(
-      style: ButtonStyle(
-        foregroundColor: WidgetStateProperty.all(Colors.white),
+      style: TextButton.styleFrom(
+        foregroundColor: (Colors.white),
       )
   ),
 
@@ -62,58 +65,58 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: Color(0xFF15886C),
     foregroundColor: Color(0xFFFFFCFC),
     extendedTextStyle: GoogleFonts.aclonica(
-        fontSize: 14,
+        fontSize: AppSizes.sp14,
         fontWeight: FontWeight.w500
     )
   ),
 
   textTheme: TextTheme(
     displaySmall: GoogleFonts.aclonica(
-      fontSize: 24,
+      fontSize: AppSizes.sp24,
       color: Color(0xFFFFFCFC),
       fontWeight: FontWeight.w400
     ),
     displayMedium: GoogleFonts.aclonica(
-      fontSize: 28,
+      fontSize: AppSizes.sp28,
       color: Color(0xFFFFFFFF),
         fontWeight: FontWeight.w400
     ),
     displayLarge: GoogleFonts.aclonica(
-      fontSize: 32,
+      fontSize: AppSizes.sp30,
       color: Color(0xFFFFFCFC),
       fontWeight: FontWeight.w400
     ),
       labelSmall: GoogleFonts.aclonica(
           color: Color(0xFFFFFCFC),
-          fontSize: 20,
+          fontSize: AppSizes.sp20,
           fontWeight: FontWeight.w400
       ),
 
     labelMedium: GoogleFonts.aclonica(
       color: Colors.white,
-      fontSize: 16
+      fontSize: AppSizes.sp16
     ) ,
 
       labelLarge: GoogleFonts.aclonica(
           color: Colors.white,
-          fontSize: 24
+          fontSize: AppSizes.sp24
       ),
 
     titleSmall: GoogleFonts.aclonica(
         color: Color(0xFFC6C6C6),
-        fontSize: 14,
+        fontSize: AppSizes.sp14,
         fontWeight: FontWeight.w400
     ),
 
     titleMedium: GoogleFonts.aclonica(
       color: Color(0xFFFFFCFC),
-      fontSize: 16,
+      fontSize: AppSizes.sp16,
       fontWeight: FontWeight.w400
     ),
 
     titleLarge: GoogleFonts.aclonica(
       color: Color(0xFFA0A0A0),
-      fontSize: 16,
+      fontSize: AppSizes.sp16,
       decoration: TextDecoration.lineThrough,
       decorationColor: Color(0xFFA0A0A0),
       fontWeight: FontWeight.w400
@@ -125,11 +128,11 @@ ThemeData darkTheme = ThemeData(
     filled: true,
     fillColor: Color(0xFF282828),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppSizes.r20),
       borderSide: BorderSide.none,
     ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.r16),
         borderSide: BorderSide(
             color: Colors.red,
             width: 0.5
@@ -139,10 +142,10 @@ ThemeData darkTheme = ThemeData(
     checkboxTheme: CheckboxThemeData(
         side: BorderSide(
             color: Color(0xFF6E6E6E),
-            width: 2
+            width: AppSizes.w2
         ),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4)
+            borderRadius: BorderRadius.circular(AppSizes.r4)
         )
     ),
 
@@ -153,7 +156,7 @@ ThemeData darkTheme = ThemeData(
     listTileTheme: ListTileThemeData(
         titleTextStyle: GoogleFonts.aclonica(
             color: Color(0xFFFFFCFC),
-            fontSize: 16,
+            fontSize: AppSizes.sp16,
             fontWeight: FontWeight.w400
         )
     ) ,
@@ -173,11 +176,11 @@ ThemeData darkTheme = ThemeData(
     unselectedItemColor: Color(0xFFC6C6C6),
     selectedItemColor: Color(0xFF15B86C),
     selectedLabelStyle: GoogleFonts.aclonica(
-        fontSize: 14,
+        fontSize: AppSizes.sp14,
         fontWeight: FontWeight.bold
     ),
       unselectedLabelStyle: GoogleFonts.aclonica(
-        fontSize: 12,
+        fontSize: AppSizes.sp12,
       )
   ),
     splashFactory: NoSplash.splashFactory,
@@ -185,7 +188,7 @@ ThemeData darkTheme = ThemeData(
   popupMenuTheme: PopupMenuThemeData(
     color: Color(0xFF181818),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppSizes.r16),
       side: BorderSide(
         color: Color(0xFF15886C),
         width: 1
@@ -195,7 +198,7 @@ ThemeData darkTheme = ThemeData(
     shadowColor: Color(0xFF15886C),
     labelTextStyle: WidgetStateProperty.all(
       GoogleFonts.aclonica(
-        fontSize: 15,
+        fontSize: AppSizes.sp15,
         fontWeight: FontWeight.w400
       ),
     ),

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 
@@ -75,23 +77,28 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_key.currentState!.validate()) {
-                    await PreferencesManager().setString(StorageKey.username, userNameController.value.text);
-                    await PreferencesManager().setString(StorageKey.motivationQuote, motivationQuoteController.value.text);
+                    await PreferencesManager().setString(
+                      StorageKey.username,
+                      userNameController.value.text,
+                    );
+                    await PreferencesManager().setString(
+                      StorageKey.motivationQuote,
+                      motivationQuoteController.value.text,
+                    );
 
                     Navigator.pop(context, true);
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                ),
+
                 child: Text(
                   "Save Changes",
                   style: GoogleFonts.aclonica(
                     fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                    fontSize: 14.sp,
                   ),
                 ),
               ),
+              SizedBox(height: AppSizes.ph24,)
             ],
           ),
         ),

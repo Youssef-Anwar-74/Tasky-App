@@ -17,7 +17,7 @@ class PreferencesManager {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  // String
+  // Stringx
   String? getString(String key) {
     return _preferences.getString(key);
   }

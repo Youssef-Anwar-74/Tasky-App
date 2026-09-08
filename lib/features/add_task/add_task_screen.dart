@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/features/add_task/add_task_controller.dart';
 import '../../core/widgets/custom_text_form_field.dart';
 
@@ -21,11 +23,11 @@ class AddTaskScreen extends StatelessWidget {
             centerTitle: true,
           ),
           body: Padding(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: 8,
-              bottom: 20,
+            padding: EdgeInsets.only(
+              left: AppSizes.w16,
+              right: AppSizes.w16,
+              top: AppSizes.h8,
+              bottom: AppSizes.h20,
             ),
             child: Form(
               key: controller.key,
@@ -43,7 +45,7 @@ class AddTaskScreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: AppSizes.h20),
                   CustomTextFormField(
                     title: "Task Description",
                     controller: controller.taskDescriptionController,
@@ -51,7 +53,7 @@ class AddTaskScreen extends StatelessWidget {
                     hintText:
                         "Finish onboarding UI and hand off to devs by Thursday",
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: AppSizes.h20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -73,20 +75,17 @@ class AddTaskScreen extends StatelessWidget {
                   ),
                   Spacer(),
                   ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                    ),
                     onPressed: () async {
                       context.read<AddTaskController>().addTask(context);
                     },
                     label: Text(
                       "Add Task",
                       style: GoogleFonts.aclonica(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    icon: Icon(Icons.add, size: 18),
+                    icon: Icon(Icons.add, size: AppSizes.r18),
                   ),
                 ],
               ),

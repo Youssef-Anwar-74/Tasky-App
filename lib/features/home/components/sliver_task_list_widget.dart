@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tasky_app/core/components/task_item_widget.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import '../../tasks/tasks_controller.dart';
 
 class SliverTaskListWidget extends StatelessWidget {
@@ -32,7 +34,7 @@ class SliverTaskListWidget extends StatelessWidget {
               child: Text(
                 emptyMessage,
                 style: GoogleFonts.aclonica(
-                  fontSize: 24,
+                  fontSize: 24.sp,
                   color: const Color(0xFFFFFCFC),
                 ),
               ),
@@ -58,7 +60,7 @@ class SliverTaskListWidget extends StatelessWidget {
             );
           },
           separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(height: 8);
+            return  SizedBox(height: AppSizes.ph8);
           },
         );
       },

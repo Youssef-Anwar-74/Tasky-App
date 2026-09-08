@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/features/home/home_controller.dart';
 import 'package:tasky_app/features/tasks/tasks_controller.dart';
 
@@ -20,9 +21,9 @@ class AchievedTasksWidget extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppSizes.r20),
           ),
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppSizes.w16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -35,7 +36,7 @@ class AchievedTasksWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: AppSizes.ph4),
                     Text(
                       "${controller.totalDoneTasks} Out of ${controller.totalTasks} Done",
                       style: Theme.of(context).textTheme.titleSmall,
@@ -51,8 +52,8 @@ class AchievedTasksWidget extends StatelessWidget {
                   Transform.rotate(
                     angle: -pi / 2,
                     child: SizedBox(
-                      height: 53,
-                      width: 53,
+                      height: AppSizes.h55,
+                      width: AppSizes.w55,
                       child: CircularProgressIndicator(
                         value: controller.percent,
                         backgroundColor: Color(0xFF6D6D6D),

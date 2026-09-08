@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/core/constants/storage_key.dart';
 import 'package:tasky_app/features/home/home_controller.dart';
 import 'package:tasky_app/features/home/components/sliver_task_list_widget.dart';
@@ -21,7 +22,7 @@ class HomeScreen extends StatelessWidget {
       create: (BuildContext context) => HomeController()..init(),
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(AppSizes.ph16),
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
@@ -50,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                                 );
                               },
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: AppSizes.w8),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: AppSizes.h16),
                     Text(
                       "Yuhuu , Your work is",
                       style: Theme.of(context).textTheme.displayLarge,
@@ -111,23 +112,23 @@ class HomeScreen extends StatelessWidget {
                         ),
                         CustomSvgPicture.withoutColor(
                           path: "assets/images/waving_hand.svg",
-                          width: 32,
-                          height: 32,
+                          width: AppSizes.w32,
+                          height: AppSizes.h32,
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: AppSizes.h16),
                     AchievedTasksWidget(),
-                    const SizedBox(height: 8),
+                     SizedBox(height: AppSizes.h8),
                     HighPriorityTaskWidget(),
                     Padding(
-                      padding: const EdgeInsets.only(top: 24),
+                      padding:  EdgeInsets.only(top: AppSizes.ph24 , bottom: AppSizes.ph16),
                       child: Text(
                         "My Tasks",
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: AppSizes.h16),
                   ],
                 ),
               ),
@@ -141,7 +142,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         floatingActionButton: SizedBox(
-          height: 44,
+          height: AppSizes.h44,
           child: Builder(
             builder: (BuildContext context) {
               return FloatingActionButton.extended(
@@ -163,7 +164,7 @@ class HomeScreen extends StatelessWidget {
                 label: const Text("Add New Task"),
                 icon: const Icon(Icons.add),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(AppSizes.r30),
                 ),
               );
             },

@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/main.dart';
 import 'package:tasky_app/features/profile/user_details_screen.dart';
@@ -53,18 +54,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return isLoading
         ? const Center(child: CircularProgressIndicator(color: Colors.white))
         : Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding:  EdgeInsets.all(AppSizes.w16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 4),
+                  padding:  EdgeInsets.only(top: AppSizes.ph8),
                   child: Text(
                     "My Profile",
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ),
-                const SizedBox(height: 18),
+                 SizedBox(height: AppSizes.h18),
                 Center(
                   child: Column(
                     children: [
@@ -72,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         alignment: Alignment.bottomRight,
                         children: [
                           CircleAvatar(
-                            radius: 60,
+                            radius: AppSizes.r60,
                             backgroundImage: (userImagePath != null &&
                                     File(userImagePath!).existsSync())
                                 ? FileImage(File(userImagePath!))
@@ -93,20 +94,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               });
                             },
                             child: Container(
-                              width: 40,
-                              height: 40,
+                              width: AppSizes.w44,
+                              height: AppSizes.h44,
                               decoration: BoxDecoration(
                                 color: Theme.of(
                                   context,
                                 ).colorScheme.primaryContainer,
-                                borderRadius: BorderRadius.circular(100),
+                                borderRadius: BorderRadius.circular(AppSizes.r100),
                               ),
-                              child: const Icon(Icons.camera_alt, size: 28),
+                              child:  Icon(Icons.camera_alt, size: AppSizes.r26),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 6),
+                       SizedBox(height: AppSizes.h8),
                       Text(
                         username,
                         style: Theme.of(context).textTheme.labelSmall,
@@ -118,12 +119,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                 SizedBox(height: AppSizes.h24),
                 Text(
                   "Profile Info",
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
-                const SizedBox(height: 24),
+                 SizedBox(height: AppSizes.h24),
                 ListTile(
                   onTap: () async {
                     final result = await Navigator.push(
@@ -223,11 +224,11 @@ void showImageSourceDialog(BuildContext context, Function(XFile) selectedFile) {
                 selectedFile(image);
               }
             },
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(AppSizes.w16),
             child: Row(
               children: [
                 const Icon(Icons.camera_alt),
-                const SizedBox(width: 16),
+                 SizedBox(width: AppSizes.w16),
                 Text("Camera", style: Theme.of(context).textTheme.titleMedium),
               ],
             ),
@@ -243,11 +244,11 @@ void showImageSourceDialog(BuildContext context, Function(XFile) selectedFile) {
                 selectedFile(image);
               }
             },
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(AppSizes.w16),
             child: Row(
               children: [
                 const Icon(Icons.photo_library),
-                const SizedBox(width: 16),
+                 SizedBox(width: AppSizes.w16),
                 Text("Gallery", style: Theme.of(context).textTheme.titleMedium),
               ],
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -28,7 +29,7 @@ class CustomTextFormField extends StatelessWidget {
           textAlign: TextAlign.start,
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        SizedBox(height: 8),
+        SizedBox(height: AppSizes.h8),
         TextFormField(
           controller: controller,
           style: Theme.of(context).textTheme.labelMedium,

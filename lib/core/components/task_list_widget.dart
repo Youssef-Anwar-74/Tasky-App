@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/core/components/task_item_widget.dart';
 
@@ -38,22 +39,24 @@ class _TaskListWidgetState extends State<TaskListWidget> {
         : ListView.separated(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            padding: EdgeInsets.only(bottom: 55),
+            padding: EdgeInsets.only(bottom: AppSizes.ph60),
             itemCount: widget.tasks.length,
             itemBuilder: (BuildContext context, int index) {
               return TaskItemWidget(
                 model: widget.tasks[index],
                 onChanged: (bool? value) {
-                  widget.onTap(value , index);
-                }, onDelete: (int id) {
-                widget.onDelete(id);
-              }, onEdit: (){
+                  widget.onTap(value, index);
+                },
+                onDelete: (int id) {
+                  widget.onDelete(id);
+                },
+                onEdit: () {
                   widget.onEdit();
-              },
+                },
               );
             },
             separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(height: 8);
+              return SizedBox(height: AppSizes.h8);
             },
           );
   }

@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/core/enums/task_item_actions_enum.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
@@ -29,12 +31,12 @@ class TaskItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56,
+      height: AppSizes.h56,
       width: double.infinity,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppSizes.r20),
         border: Border.all(
           color: ThemeController.isDark()
               ? Colors.transparent
@@ -43,14 +45,14 @@ class TaskItemWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const SizedBox(width: 8),
+          SizedBox(width: AppSizes.pw8),
           CustomCheckBox(
             value: model.isDone,
             onChanged: (bool? value) {
               onChanged(value);
             },
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: AppSizes.pw8),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +70,7 @@ class TaskItemWidget extends StatelessWidget {
                   Text(
                     model.taskDescription,
                     style: GoogleFonts.aclonica(
-                      fontSize: 14,
+                      fontSize: AppSizes.sp14,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFFC6C6C6),
                     ),
@@ -82,8 +84,12 @@ class TaskItemWidget extends StatelessWidget {
             icon: Icon(
               Icons.more_vert,
               color: ThemeController.isDark()
-                  ? (model.isDone ? const Color(0xFFA0A0A0) : const Color(0xFFC6C6C6))
-                  : (model.isDone ? const Color(0xFF6A6A6A) : const Color(0xFF3A4640)),
+                  ? (model.isDone
+                        ? const Color(0xFFA0A0A0)
+                        : const Color(0xFFC6C6C6))
+                  : (model.isDone
+                        ? const Color(0xFF6A6A6A)
+                        : const Color(0xFF3A4640)),
             ),
             onSelected: (value) async {
               switch (value) {
@@ -116,10 +122,7 @@ class TaskItemWidget extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "Delete Task",
-            style: GoogleFonts.aclonica(),
-          ),
+          title: Text("Delete Task", style: GoogleFonts.aclonica()),
           content: Text(
             "Are you sure you want to delete this task ? ",
             style: GoogleFonts.aclonica(),
@@ -131,7 +134,7 @@ class TaskItemWidget extends StatelessWidget {
               },
               child: Text(
                 "Cancel",
-                style: GoogleFonts.aclonica(fontSize: 18),
+                style: GoogleFonts.aclonica(fontSize: AppSizes.sp18),
               ),
             ),
             TextButton(
@@ -143,7 +146,7 @@ class TaskItemWidget extends StatelessWidget {
                 "Delete",
                 style: GoogleFonts.aclonica(
                   color: Colors.red,
-                  fontSize: 18,
+                  fontSize: AppSizes.sp18,
                 ),
               ),
             ),
@@ -154,10 +157,12 @@ class TaskItemWidget extends StatelessWidget {
   }
 
   Future<bool?> _showButtonSheet(BuildContext context, TaskModel model) async {
-    TextEditingController taskNameController =
-        TextEditingController(text: model.taskName);
-    TextEditingController taskDescriptionController =
-        TextEditingController(text: model.taskDescription);
+    TextEditingController taskNameController = TextEditingController(
+      text: model.taskName,
+    );
+    TextEditingController taskDescriptionController = TextEditingController(
+      text: model.taskDescription,
+    );
     bool isHighPriority = model.isHighPriority;
 
     GlobalKey<FormState> _key = GlobalKey<FormState>();
@@ -169,11 +174,9 @@ class TaskItemWidget extends StatelessWidget {
         return StatefulBuilder(
           builder: (BuildContext context, void Function(void Function()) setState) {
             return Padding(
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 8,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSizes.pw16,
+                vertical: AppSizes.pw8,
               ),
               child: Form(
                 key: _key,
@@ -181,7 +184,7 @@ class TaskItemWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 20,),
+                    SizedBox(height: AppSizes.ph20),
                     CustomTextFormField(
                       title: "Task Name",
                       controller: taskNameController,
@@ -193,14 +196,15 @@ class TaskItemWidget extends StatelessWidget {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: AppSizes.ph20),
                     CustomTextFormField(
                       title: "Task Description",
                       controller: taskDescriptionController,
                       maxLines: 5,
-                      hintText: "Finish onboarding UI and hand off to devs by Thursday",
+                      hintText:
+                          "Finish onboarding UI and hand off to devs by Thursday",
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: AppSizes.ph20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -218,14 +222,16 @@ class TaskItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: AppSizes.ph20),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         fixedSize: Size(MediaQuery.of(context).size.width, 50),
                       ),
                       onPressed: () async {
                         if (_key.currentState?.validate() ?? false) {
-                          final taskJson = PreferencesManager().getString(StorageKey.tasks);
+                          final taskJson = PreferencesManager().getString(
+                            StorageKey.tasks,
+                          );
 
                           List<dynamic> listTasks = [];
 
@@ -241,23 +247,25 @@ class TaskItemWidget extends StatelessWidget {
                             isDone: model.isDone,
                           );
 
-                          final item = listTasks.firstWhere((e) => e["id"] == model.id);
+                          final item = listTasks.firstWhere(
+                            (e) => e["id"] == model.id,
+                          );
 
                           final int index = listTasks.indexOf(item);
                           listTasks[index] = newModel.toJson();
 
                           final taskEncode = jsonEncode(listTasks);
-                          await PreferencesManager().setString(StorageKey.tasks, taskEncode);
+                          await PreferencesManager().setString(
+                            StorageKey.tasks,
+                            taskEncode,
+                          );
 
                           if (context.mounted) {
                             Navigator.of(context).pop(true);
                           }
                         }
                       },
-                      label: Text(
-                        "Edit Task",
-                        style: GoogleFonts.aclonica(),
-                      ),
+                      label: Text("Edit Task", style: GoogleFonts.aclonica()),
                       icon: const Icon(Icons.edit),
                     ),
                   ],

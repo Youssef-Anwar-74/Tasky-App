@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
@@ -30,7 +31,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
             child: Text(
               "No Data",
               style: GoogleFonts.aclonica(
-                fontSize: 24,
+                fontSize: 24.sp,
                 color: Color(0xFFFFFCFC),
               ),
             ),
@@ -72,7 +73,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                             Text(
                               widget.tasks[index].taskName,
                               style: GoogleFonts.aclonica(
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
                                 color: widget.tasks[index].isDone
                                     ? Color(0xFFA0A0A0)
@@ -90,7 +91,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                               Text(
                                 widget.tasks[index].taskDescription,
                                 style: GoogleFonts.aclonica(
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xFFC6C6C6),
                                 ),

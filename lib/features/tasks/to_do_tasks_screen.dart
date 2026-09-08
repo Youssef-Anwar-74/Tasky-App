@@ -10,6 +10,7 @@ import 'package:tasky_app/features/tasks/tasks_controller.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 import '../../core/components/task_list_widget.dart';
+import '../../core/constants/app_sizes.dart';
 import '../../core/constants/storage_key.dart';
 
 class ToDoTasksScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class ToDoTasksScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(18.0),
+          padding: EdgeInsets.all(AppSizes.pw18),
           child: Text(
             "To Do Tasks",
             style: Theme.of(context).textTheme.labelSmall,
@@ -30,25 +31,29 @@ class ToDoTasksScreen extends StatelessWidget {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(AppSizes.w16),
             child: controller.isLoading
                 ? Center(child: CircularProgressIndicator(color: Colors.white))
                 : Consumer<TasksController>(
-                    builder: (BuildContext context, valueController, Widget? child) {
-                      return TaskListWidget(
-                        tasks: valueController.todoTasks,
-                        onTap: (bool? value, int? index) async {
-                          controller.doneTask(value, valueController.todoTasks[index!].id);
+                    builder:
+                        (BuildContext context, valueController, Widget? child) {
+                          return TaskListWidget(
+                            tasks: valueController.todoTasks,
+                            onTap: (bool? value, int? index) async {
+                              controller.doneTask(
+                                value,
+                                valueController.todoTasks[index!].id,
+                              );
+                            },
+                            emptyMessage: 'No Tasks Found',
+                            onDelete: (int? id) {
+                              controller.deleteTask(id);
+                            },
+                            onEdit: () {
+                              controller.init();
+                            },
+                          );
                         },
-                        emptyMessage: 'No Tasks Found',
-                        onDelete: (int? id) {
-                          controller.deleteTask(id);
-                        },
-                        onEdit: () {
-                          controller.init();
-                        },
-                      );
-                    },
                   ),
           ),
         ),
