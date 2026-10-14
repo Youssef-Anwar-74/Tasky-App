@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:tasky_app/core/services/file_storage_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 import '../../core/constants/storage_key.dart';
-import '../../core/services/preferences_manager.dart';
 
 class TasksController extends ChangeNotifier {
   bool isLoading = false;
@@ -21,22 +21,22 @@ class TasksController extends ChangeNotifier {
     _loadTasks();
   }
 
-  void _loadTasks() {
+  void _loadTasks() async{
     isLoading = true;
 
-    final finalTask = PreferencesManager().getString(StorageKey.tasks);
-    if (finalTask != null) {
-      final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
-      tasks = taskAfterDecode.map((element) => TaskModel.fromJson(element)).toList();
+
+      final tasksData = await FileStorageManager().loadTasks();
+
+      tasks = tasksData.map((element) => TaskModel.fromJson(element)).toList();
       _loadDate();
 
       _calculatePercent();
-    }
     isLoading = false;
     notifyListeners();
   }
 
-  void _loadDate(){
+  void _loadDate()async{
+    await FileStorageManager().loadTasks();
     todoTasks = tasks.where((element) => !element.isDone).toList();
     completedTasks = tasks.where((element) => element.isDone).toList();
     highPriorityTasks = tasks.where((element) => element.isHighPriority).toList();
@@ -45,7 +45,7 @@ class TasksController extends ChangeNotifier {
 
   void doneTask(bool? value, int id) async {
 
-    final TaskModel model = tasks.firstWhere((element) => element.id == id);
+    //final TaskModel model = tasks.firstWhere((element) => element.id == id);
     final index = tasks.indexWhere((element) => element.id == id);
 
     tasks[index].isDone = value ?? false;
@@ -54,8 +54,9 @@ class TasksController extends ChangeNotifier {
 
     final updatedTask = tasks.map((element)=> element.toJson()).toList();
 
-    await PreferencesManager().setString(StorageKey.tasks, jsonEncode(tasks));
-    _loadTasks();
+    await FileStorageManager().saveTasks(updatedTask);
+    //_loadTasks();
+    notifyListeners();
   }
 
 
@@ -68,9 +69,7 @@ class TasksController extends ChangeNotifier {
     _calculatePercent();
 
     final updatedTask = tasks.map((element) => element.toJson()).toList();
-    PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
-    _calculatePercent();
-
+    await FileStorageManager().saveTasks(updatedTask);
     notifyListeners();
   }
 
@@ -80,17 +79,21 @@ class TasksController extends ChangeNotifier {
     percent = totalTasks == 0 ? 0 : totalDoneTasks / totalTasks;
   }
 
-  void clearTasks() {
-    tasks.clear();
-    completedTasks.clear();
-    todoTasks.clear();
-    highPriorityTasks.clear();
+  // void clearTasks() {
+  //   tasks.clear();
+  //   completedTasks.clear();
+  //   todoTasks.clear();
+  //   highPriorityTasks.clear();
+  //
+  //   totalTasks = 0;
+  //   totalDoneTasks = 0;
+  //   percent = 0;
+  //
+  //   notifyListeners();
+  // }
 
-    totalTasks = 0;
-    totalDoneTasks = 0;
-    percent = 0;
-
-    notifyListeners();
+  void clearTasks(){
+    _loadTasks();
   }
 
 }

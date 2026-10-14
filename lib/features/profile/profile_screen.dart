@@ -15,6 +15,7 @@ import 'package:tasky_app/features/profile/user_details_screen.dart';
 import 'package:tasky_app/features/welcome/welcome_screen.dart';
 
 import '../../core/constants/storage_key.dart';
+import '../../core/services/file_storage_manager.dart';
 import '../../core/theme/theme_controller.dart';
 import '../../core/widgets/custom_svg_picture.dart';
 import '../tasks/tasks_controller.dart';
@@ -167,9 +168,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Divider(),
                 ListTile(
                   onTap: () async {
+                    await FileStorageManager().clear();
+
                     context.read<TasksController>().clearTasks();
-                    // Reset all data on logout
-                    await PreferencesManager().clear();
                     
                     if (context.mounted) {
                       Navigator.pushAndRemoveUntil(

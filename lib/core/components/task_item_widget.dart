@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/core/enums/task_item_actions_enum.dart';
+import 'package:tasky_app/core/services/file_storage_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/task_model.dart';
@@ -229,15 +230,9 @@ class TaskItemWidget extends StatelessWidget {
                       ),
                       onPressed: () async {
                         if (_key.currentState?.validate() ?? false) {
-                          final taskJson = PreferencesManager().getString(
-                            StorageKey.tasks,
-                          );
+                          List<dynamic> listTasks =  await FileStorageManager().loadTasks();
 
-                          List<dynamic> listTasks = [];
 
-                          if (taskJson != null) {
-                            listTasks = jsonDecode(taskJson);
-                          }
 
                           TaskModel newModel = TaskModel(
                             id: model.id,
@@ -254,11 +249,13 @@ class TaskItemWidget extends StatelessWidget {
                           final int index = listTasks.indexOf(item);
                           listTasks[index] = newModel.toJson();
 
-                          final taskEncode = jsonEncode(listTasks);
-                          await PreferencesManager().setString(
-                            StorageKey.tasks,
-                            taskEncode,
-                          );
+                          await FileStorageManager().saveTasks(listTasks);
+
+                          // final taskEncode = jsonEncode(listTasks);
+                          // await PreferencesManager().setString(
+                          //   StorageKey.tasks,
+                          //   taskEncode,
+                          // );
 
                           if (context.mounted) {
                             Navigator.of(context).pop(true);
