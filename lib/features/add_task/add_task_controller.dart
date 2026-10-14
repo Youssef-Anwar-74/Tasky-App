@@ -1,9 +1,7 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:tasky_app/core/services/file_storage_manager.dart';
+import 'package:tasky_app/core/services/hive_storage_manager.dart';
 
-import '../../core/constants/storage_key.dart';
 import '../../models/task_model.dart';
 
 class AddTaskController with ChangeNotifier {
@@ -15,7 +13,7 @@ class AddTaskController with ChangeNotifier {
 
   void addTask(BuildContext context)async{
     if (key.currentState?.validate() ?? false) {
-      List<dynamic> listTasks = await FileStorageManager().loadTasks();
+      List<TaskModel> listTasks =  HiveStorageManager().loadTasks();
 
       TaskModel model = TaskModel(
         id: listTasks.length + 1,
@@ -24,7 +22,9 @@ class AddTaskController with ChangeNotifier {
         isHighPriority: isHighPriority,
       );
 
-      await FileStorageManager().saveTasks(listTasks);
+      listTasks.add(model);
+
+      await HiveStorageManager().saveTasks(listTasks);
 
       Navigator.of(context).pop(true);
     }

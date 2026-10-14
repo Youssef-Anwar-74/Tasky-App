@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:tasky_app/core/services/file_storage_manager.dart';
+import 'package:tasky_app/core/services/hive_storage_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
 
-import '../../core/constants/storage_key.dart';
 
 class TasksController extends ChangeNotifier {
   bool isLoading = false;
@@ -25,9 +23,8 @@ class TasksController extends ChangeNotifier {
     isLoading = true;
 
 
-      final tasksData = await FileStorageManager().loadTasks();
+       tasks =  HiveStorageManager().loadTasks();
 
-      tasks = tasksData.map((element) => TaskModel.fromJson(element)).toList();
       _loadDate();
 
       _calculatePercent();
@@ -35,8 +32,8 @@ class TasksController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _loadDate()async{
-    await FileStorageManager().loadTasks();
+  void _loadDate() {
+    HiveStorageManager().loadTasks();
     todoTasks = tasks.where((element) => !element.isDone).toList();
     completedTasks = tasks.where((element) => element.isDone).toList();
     highPriorityTasks = tasks.where((element) => element.isHighPriority).toList();
@@ -52,10 +49,8 @@ class TasksController extends ChangeNotifier {
     _loadDate();
     _calculatePercent();
 
-    final updatedTask = tasks.map((element)=> element.toJson()).toList();
 
-    await FileStorageManager().saveTasks(updatedTask);
-    //_loadTasks();
+    HiveStorageManager().saveTasks(tasks);
     notifyListeners();
   }
 
@@ -65,11 +60,11 @@ class TasksController extends ChangeNotifier {
     if (id == null) return;
 
     tasks.removeWhere((e) => e.id == id);
+
     _loadDate();
     _calculatePercent();
 
-    final updatedTask = tasks.map((element) => element.toJson()).toList();
-    await FileStorageManager().saveTasks(updatedTask);
+    HiveStorageManager().saveTasks(tasks);
     notifyListeners();
   }
 

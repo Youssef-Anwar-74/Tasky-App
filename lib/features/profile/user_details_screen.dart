@@ -86,7 +86,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       motivationQuoteController.value.text,
                     );
 
-                    Navigator.pop(context, true);
+                    if (context.mounted) {
+                      Navigator.pop(context, true);
+                    }
                   }
                 },
 

@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tasky_app/core/services/file_storage_manager.dart';
+import 'package:tasky_app/core/services/hive_storage_manager.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/light_theme.dart';
 import 'package:tasky_app/features/home/home_screen.dart';
@@ -27,7 +27,7 @@ void main() async {
 
   await getApplicationDocumentsDirectory() ;
 
-  await FileStorageManager().init();
+  await HiveStorageManager().init();
 
   String? username = PreferencesManager().getString(StorageKey.username);
 

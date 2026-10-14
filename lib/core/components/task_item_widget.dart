@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasky_app/core/constants/app_sizes.dart';
 import 'package:tasky_app/core/enums/task_item_actions_enum.dart';
-import 'package:tasky_app/core/services/file_storage_manager.dart';
+import 'package:tasky_app/core/services/hive_storage_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/task_model.dart';
@@ -230,7 +230,7 @@ class TaskItemWidget extends StatelessWidget {
                       ),
                       onPressed: () async {
                         if (_key.currentState?.validate() ?? false) {
-                          List<dynamic> listTasks =  await FileStorageManager().loadTasks();
+                          List<TaskModel> listTasks =  HiveStorageManager().loadTasks();
 
 
 
@@ -243,19 +243,15 @@ class TaskItemWidget extends StatelessWidget {
                           );
 
                           final item = listTasks.firstWhere(
-                            (e) => e["id"] == model.id,
+                            (e) => e.id == model.id,
                           );
 
                           final int index = listTasks.indexOf(item);
-                          listTasks[index] = newModel.toJson();
+                          listTasks[index] = newModel;
 
-                          await FileStorageManager().saveTasks(listTasks);
+                          await HiveStorageManager().saveTasks(listTasks);
 
-                          // final taskEncode = jsonEncode(listTasks);
-                          // await PreferencesManager().setString(
-                          //   StorageKey.tasks,
-                          //   taskEncode,
-                          // );
+
 
                           if (context.mounted) {
                             Navigator.of(context).pop(true);

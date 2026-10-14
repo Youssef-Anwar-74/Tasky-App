@@ -43,8 +43,8 @@ class HomeScreen extends StatelessWidget {
                                 return CircleAvatar(
                                   backgroundImage: (userImagePath == null ||
                                           !File(userImagePath).existsSync())
-                                      ? const AssetImage(
-                                          "assets/images/default.jpeg",
+                                      ?  AssetImage(
+                                          "assets/images/avatar.jpg",
                                         )
                                       : FileImage(File(userImagePath))
                                             as ImageProvider,

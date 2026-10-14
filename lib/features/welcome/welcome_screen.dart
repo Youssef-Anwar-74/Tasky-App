@@ -89,14 +89,16 @@ class WelcomeScreen extends StatelessWidget {
                         onPressed: () async {
                           if (_key.currentState?.validate() ?? false) {
                             await PreferencesManager().setString(StorageKey.username, controller.value.text);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return MainScreen();
-                                },
-                              ),
-                            );
+                            if (context.mounted) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return MainScreen();
+                                  },
+                                ),
+                              );
+                            }
                           } else {
                             // todo : snack bar
                             ScaffoldMessenger.of(context).showSnackBar(

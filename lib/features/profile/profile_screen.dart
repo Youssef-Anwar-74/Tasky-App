@@ -1,23 +1,17 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/constants/app_sizes.dart';
+import 'package:tasky_app/core/constants/storage_key.dart';
+import 'package:tasky_app/core/services/hive_storage_manager.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
-import 'package:tasky_app/main.dart';
+import 'package:tasky_app/core/theme/theme_controller.dart';
+import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/features/profile/user_details_screen.dart';
 import 'package:tasky_app/features/welcome/welcome_screen.dart';
-
-import '../../core/constants/storage_key.dart';
-import '../../core/services/file_storage_manager.dart';
-import '../../core/theme/theme_controller.dart';
-import '../../core/widgets/custom_svg_picture.dart';
 import '../tasks/tasks_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -79,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     File(userImagePath!).existsSync())
                                 ? FileImage(File(userImagePath!))
                                 : const AssetImage(
-                                    "assets/images/default.jpeg",
+                                    "assets/images/avatar.jpg",
                                   ) as ImageProvider,
                           ),
                           GestureDetector(
@@ -168,11 +162,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Divider(),
                 ListTile(
                   onTap: () async {
-                    await FileStorageManager().clear();
+                    PreferencesManager().remove(StorageKey.username);
+                    PreferencesManager().remove(StorageKey.motivationQuote);
 
-                    context.read<TasksController>().clearTasks();
-                    
+                    await HiveStorageManager().clear();
+
                     if (context.mounted) {
+                      context.read<TasksController>().clearTasks();
+                      
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
